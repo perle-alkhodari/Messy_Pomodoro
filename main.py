@@ -1,8 +1,9 @@
-import tkinter as tk
 import ttkbootstrap as tb
-from tkinter import ttk
-import time
+from tkinter import PhotoImage
+import ctypes
 
+# myappid = 'mycompany.myproduct.subproduct.version' # arbitrary string
+# ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
 def switch_to_break_theme():
     global style1
@@ -91,7 +92,7 @@ def start_countdown(clicked=False, reset=False, stop=False):
         str_secs = format_time(seconds)
 
         time_label.config(text=str_minutes + ":" + str_secs)
-        window.after(100, start_countdown)
+        window.after(ms_interval, start_countdown)
 
 def full_reset():
     global work_minutes, work_seconds, break_minutes, break_seconds, minutes, seconds, reset_settings, start_pause_switch, work_break_switch, start
@@ -120,6 +121,7 @@ work_seconds = 59
 break_minutes = 0
 break_seconds = 10
 
+ms_interval = 1000
 minutes = work_minutes
 seconds = work_seconds
 reset_settings = [minutes, seconds, f"{format_time(minutes+1)}:00"]
@@ -142,7 +144,12 @@ font_small = ("Courier", 10)
 window = tb.Window(resizable=(False, False))
 window.title("Pomodoro")
 center_window(600, 450, window,50)
-window.configure(background=background_color, pady=10)
+window.configure(background=background_color)
+window.iconbitmap(default='Images/clock_icon.png')
+
+#Icon
+icon = PhotoImage(file="Images/clock_icon.png")
+window.iconphoto(False, icon)
 
 time_label = tb.Label(window, text=f"{format_time(work_minutes+1)}:00", font=font_large,
                       background=background_color,
